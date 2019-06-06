@@ -2,6 +2,8 @@ development:
   prepared_statements: false
   adapter: postgresql
   database: <%= ENV['DISCOURSE_DEV_DB'] || 'discourse_development' %>
+  username: discourse
+  password: qwertyuiop
   min_messages: warning
   pool: 5
   timeout: 5000
@@ -20,6 +22,8 @@ test:
   prepared_statements: false
   adapter: postgresql
   database: <%= ENV["RAILS_DB"] ? ENV["RAILS_DB"] : "discourse_test" %>
+  username: discourse
+  password: qwertyuiop
   min_messages: warning
   pool: 5
   timeout: 5000
@@ -31,6 +35,8 @@ profile:
   prepared_statements: false
   adapter: postgresql
   database: discourse_profile
+  username: discourse
+  password: qwertyuiop
   min_messages: warning
   pool: 5
   timeout: 5000

@@ -1,0 +1,6 @@
+{{#if siteSettings.discourse_CNLToSQL_enabled}}
+      <div>
+        <label for="query">{{"CNL Query"}}</label>
+        {{ace-editor content="" mode="text" disabled=readOnly}}
+      </div>
+{{/if}}
