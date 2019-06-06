@@ -363,6 +363,8 @@ en:
         placeholder: "type the message title here"
 
     review:
+      order_by: "Order by"
+      in_reply_to: "in reply to"
       claim_help:
         optional: "You can claim this item to prevent others from reviewing it."
         required: "You must claim items before you can review them."
@@ -441,6 +443,12 @@ en:
         refresh: "Refresh"
         status: "Status"
         category: "Category"
+        orders:
+          priority: "Priority"
+          priority_asc: "Priority (reverse)"
+          created_at: "Created At"
+          created_at_asc: "Created At (reverse)"
+
         priority:
           title: "Minimum Priority"
           low: "Low"
@@ -478,6 +486,8 @@ en:
         reviewable_flagged_post:
           title: "Flagged Post"
           flagged_by: "Flagged By"
+        reviewable_queued_topic:
+          title: "Queued Topic"
         reviewable_queued_post:
           title: "Queued Post"
         reviewable_user:
@@ -1711,6 +1721,27 @@ en:
         confirm_title: "Notifications enabled - %{site_title}"
         confirm_body: "Success! Notifications have been enabled."
         custom: "Notification from {{username}} on %{site_title}"
+
+      titles:
+        mentioned: "mentioned"
+        replied: "new reply"
+        quoted: "quoted"
+        edited: "edited"
+        liked: "new like"
+        private_message: "new private message"
+        invited_to_private_message: "invited to private message"
+        invitee_accepted: "invite accepted"
+        posted: "new post"
+        moved_post: "post moved"
+        linked: "linked"
+        granted_badge: "badge granted"
+        invited_to_topic: "invited to topic"
+        group_mentioned: "group mentioned"
+        group_message_summary: "new group messages"
+        watching_first_post: "new topic"
+        topic_reminder: "topic reminder"
+        liked_consolidated: "new likes"
+        post_approved: "post approved"
 
     upload_selector:
       title: "Add an image"
@@ -3090,6 +3121,7 @@ en:
           groups: "All groups"
           disabled: "This report is disabled"
           totals_for_sample: "Totals for sample"
+          average_for_sample: "Average for sample"
           total: "All time total"
           no_data: "No data to display."
           trending_search:

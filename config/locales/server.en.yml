@@ -218,6 +218,7 @@ en:
 
   bulk_invite:
     file_should_be_csv: "The uploaded file should be of csv format."
+    max_rows: "Maximum of 50,000 invites can be sent at a time. Try splitting the file in smaller parts."
     error: "There was an error uploading that file. Please try again later."
 
   topic_invite:
@@ -1006,7 +1007,7 @@ en:
       title: "User Visits"
       xaxis: "Day"
       yaxis: "Number of visits"
-      description: "Number of all unique user visits."
+      description: "Number of all user visits."
     signups:
       title: "Signups"
       xaxis: "Day"
@@ -1419,7 +1420,7 @@ en:
     must_approve_users: "Staff must approve all new user accounts before they are allowed to access the site. WARNING: enabling this for a live site will revoke access for existing non-staff users!"
     pending_users_reminder_delay: "Notify moderators if new users have been waiting for approval for longer than this many hours. Set to -1 to disable notifications."
     maximum_session_age: "User will remain logged in for n hours since last visit"
-    ga_universal_tracking_code: "Google Universal Analytics (analytics.js) tracking code code, eg: UA-12345678-9; see <a href='https://google.com/analytics' target='_blank'>https://google.com/analytics</a>"
+    ga_universal_tracking_code: "Google Universal Analytics (analytics.js) tracking code ID, eg: UA-12345678-9; see <a href='https://google.com/analytics' target='_blank'>https://google.com/analytics</a>"
     ga_universal_domain_name: "Google Universal Analytics (analytics.js) domain name, eg: mysite.com; see <a href='https://google.com/analytics' target='_blank'>https://google.com/analytics</a>"
     ga_universal_auto_link_domains: "Enable Google Universal Analytics (analytics.js) cross-domain tracking. Outgoing links to these domains will have the client id added to them. See <a href='https://support.google.com/analytics/answer/1034342?hl=en' target='_blank'>Google's Cross-Domain Tracking guide.</a>"
     gtm_container_id: "Google Tag Manager container id. eg: GTM-ABCDEF. <br/>Note: third-party scripts loaded by GTM may need to be whitelisted in 'content security policy script src'."
@@ -1714,6 +1715,8 @@ en:
 
     title_prettify: "Prevent common title typos and errors, including all caps, lowercase first character, multiple ! and ?, extra . at end, etc."
     title_remove_extraneous_space: "Remove leading whitespaces in front of the end punctuation."
+
+    automatic_topic_heat_values: 'Automatically update the "topic views heat" and "topic post like heat" settings based on site activity.'
 
     topic_views_heat_low: "After this many views, the views field is slightly highlighted."
     topic_views_heat_medium: "After this many views, the views field is moderately highlighted."
@@ -2866,6 +2869,14 @@ en:
         %{rejected_errors}
 
         If you believe this is an error, [contact a staff member](%{base_url}/about).
+
+    email_reject_reply_not_allowed:
+      title: "Email Reject Reply Not Allowed"
+      subject_template: "[%{email_prefix}] Email issue -- Reply Not Allowed"
+      text_body_template: |
+        We're sorry, but your email message to %{destination} (titled %{former_title}) didn't work.
+
+        You don't have permissions to reply to the topic. If you believe this is an error, [contact a staff member](%{base_url}/about).
 
     email_error_notification:
       title: "Email Error Notification"
@@ -4341,8 +4352,8 @@ en:
         description:
           "Looking to customize your Discourse? Take advantage of our powerful theming system:
           <ul>
-          <li><a href='https://meta.discourse.org/t/x/63682' target='_blank'>How do I install a theme or theme component?</a></li>
-          <li><a href='https://meta.discourse.org/t/x/110448' target='_blank'>Theme Developer Quick Reference Guide</a></li>
+          <li><a href='https://meta.discourse.org/t/63682' target='_blank'>How do I install a theme or theme component?</a></li>
+          <li><a href='https://meta.discourse.org/t/110448' target='_blank'>Theme Developer Quick Reference Guide</a></li>
           </ul>
           Popular theme components (for more, browse <a href='https://meta.discourse.org/c/theme/l/latest' target='_blank'>#theme</a>)"
 
