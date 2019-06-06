@@ -62,6 +62,9 @@
       {{/if}}
     </div>
 
+    {{plugin-outlet name="CNLtoSQLtextbox"}}
+    
+
     {{#if siteSettings.enable_badge_sql}}
       <div>
         <label for="query">{{i18n 'admin.badges.query'}}</label>
