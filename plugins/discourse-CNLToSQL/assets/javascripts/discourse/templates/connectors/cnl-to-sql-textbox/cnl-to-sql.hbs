@@ -1,0 +1,8 @@
+{{#if siteSettings.discourse_CNLToSQL_enabled}}
+      <div>
+        <label for="label">Badge Query (CNL)</label><br>
+         <button {{action "clear"}} class="btn btn-primary">Write a new CNL Query</button><br><br>
+        {{ace-editor id="editor1" content=null mode="text" disabled=readOnly}}<br>
+      </div>
+      <button {{action "logit"}} class="btn btn-primary">Generate corresponding SQL Query</button><br><br>
+{{/if}}
