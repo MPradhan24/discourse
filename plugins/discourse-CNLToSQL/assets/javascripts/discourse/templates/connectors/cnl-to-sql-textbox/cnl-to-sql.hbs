@@ -1,6 +1,8 @@
 {{#if siteSettings.discourse_CNLToSQL_enabled}}
       <div>
-        <label for="query">{{"CNL Query"}}</label>
-        {{ace-editor content="" mode="text" disabled=readOnly}}
+        <label for="label">Badge Query (CNL)</label>
+        {{ace-editor id="cnl-editor" content=content mode="text" }}
       </div>
+
+      <button {{action "convert"}} class="btn btn-primary">Click</button>
 {{/if}}

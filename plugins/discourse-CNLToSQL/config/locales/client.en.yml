@@ -1,6 +1,4 @@
 en:
   js:
     discourse_CNLToSQL:
-      badge:
-        cnl:
-          label: "CNL Query"
+      label: CNL Query
