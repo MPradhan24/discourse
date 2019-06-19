@@ -1,182 +1,77 @@
 import { popupAjaxError } from "discourse/lib/ajax-error";
 import { bufferedProperty } from "discourse/mixins/buffered-content";
 import { propertyNotEqual } from "discourse/lib/computed";
-import computed from "ember-addons/ember-computed-decorators";
+
+import {computed, observes} from "ember-addons/ember-computed-decorators";
+import loadScript from "discourse/lib/load-script";
+
+
+// const NoQuery = Query.create({ name: "No queries", fake: true });
 
 export default ({
 
+  mode: "text",
+  content: "",
+  _editor: null,
 
-  saving: false,
-  savingStatus: "",
-
-  badgeTypes: Ember.computed.alias("adminBadges.badgeTypes"),
-  badgeGroupings: Ember.computed.alias("adminBadges.badgeGroupings"),
-  badgeTriggers: Ember.computed.alias("adminBadges.badgeTriggers"),
-  protectedSystemFields: Ember.computed.alias(
-    "adminBadges.protectedSystemFields"
-  ),
-
-  readOnly: Ember.computed.alias("buffered.system"),
-  showDisplayName: propertyNotEqual("name", "displayName"),
-
-  @computed("model.query", "buffered.query")
-  hasQuery(modelQuery, bufferedQuery) {
-    if (bufferedQuery) {
-      return bufferedQuery.trim().length > 0;
+  @observes("content")
+  contentChanged() {
+    if (this._editor && !this._skipContentChangeEvent) {
+      this._editor.getSession().setValue(this.content);
     }
-    return modelQuery && modelQuery.trim().length > 0;
   },
 
-  _resetSaving: function() {
-    this.set("saving", false);
-    this.set("savingStatus", "");
-  }.observes("model.id"),
+  @observes("mode")
+  modeChanged() {
+    if (this._editor && !this._skipContentChangeEvent) {
+      this._editor.getSession().setMode("ace/mode/" + this.mode);
+    }
+  },
 
   actions: {
-    save() {
-      if (!this.saving) {
-        let fields = [
-          "allow_title",
-          "multiple_grant",
-          "listable",
-          "auto_revoke",
-          "enabled",
-          "show_posts",
-          "target_posts",
-          "name",
-          "description",
-          "long_description",
-          "icon",
-          "image",
-          "query",
-          "badge_grouping_id",
-          "trigger",
-          "badge_type_id"
-        ];
 
-        if (this.get("buffered.system")) {
-          var protectedFields = this.protectedSystemFields || [];
-          fields = _.filter(fields, f => !protectedFields.includes(f));
-        }
+    convert(){
+     
+        this.send('getEditorContent');
+        alert(this.get("content"));
+        this._editor.getSession().setValue(this.get("content"));
+    },
 
-        this.set("saving", true);
-        this.set("savingStatus", I18n.t("saving"));
+    getEditorContent(){
 
-        const boolFields = [
-          "allow_title",
-          "multiple_grant",
-          "listable",
-          "auto_revoke",
-          "enabled",
-          "show_posts",
-          "target_posts"
-        ];
+      const editor = ace.edit("cnl-editor");
 
-        const data = {};
-        const buffered = this.buffered;
-        fields.forEach(function(field) {
-          var d = buffered.get(field);
-          if (boolFields.includes(field)) {
-            d = !!d;
-          }
-          data[field] = d;
+      editor.setTheme("ace/theme/chrome");
+      editor.setShowPrintMargin(false);
+      editor.setOptions({ fontSize: "14px" });
+      editor.on("change", () => {
+        this._skipContentChangeEvent = true;
+        this.set("content", editor.getSession().getValue());
+        this._skipContentChangeEvent = false;
+      });
+      editor.$blockScrolling = Infinity;
+      editor.renderer.setScrollMargin(10, 10);
+
+      this.$().data("editor", editor);
+      this._editor = editor;
+
+      $(window)
+        .off("ace:resize")
+        .on("ace:resize", () => {
+          this.appEvents.trigger("ace:resize");
         });
 
-        const newBadge = !this.id;
-        const model = this.model;
-        this.model
-          .save(data)
-          .then(() => {
-            if (newBadge) {
-              const adminBadges = this.get("adminBadges.model");
-              if (!adminBadges.includes(model)) {
-                adminBadges.pushObject(model);
-              }
-              this.transitionToRoute("adminBadges.show", model.get("id"));
-            } else {
-              this.commitBuffer();
-              this.set("savingStatus", I18n.t("saved"));
-            }
-          })
-          .catch(popupAjaxError)
-          .finally(() => {
-            this.set("saving", false);
-            this.set("savingStatus", "");
-          });
-      }
-    },
-
-    destroy() {
-      const adminBadges = this.get("adminBadges.model");
-      const model = this.model;
-
-      if (!model.get("id")) {
-        this.transitionToRoute("adminBadges.index");
-        return;
+      if (this.appEvents) {
+        // xxx: don't run during qunit tests
+        this.appEvents.on("ace:resize", this, "resize");
       }
 
-      return bootbox.confirm(
-        I18n.t("admin.badges.delete_confirm"),
-        I18n.t("no_value"),
-        I18n.t("yes_value"),
-        result => {
-          if (result) {
-            model
-              .destroy()
-              .then(() => {
-                adminBadges.removeObject(model);
-                this.transitionToRoute("adminBadges.index");
-              })
-              .catch(() => {
-                bootbox.alert(I18n.t("generic_error"));
-              });
-          }
-        }
-      );
-    },
+      if (this.autofocus) {
+        this.send("focus");
+      }
 
-    clear(){
-      var editor=ace.edit("editor1");
-      editor.setValue("");
-    },
-
-    logit(){
-     //    let fields = [
-     //      "allow_title",
-     //      "multiple_grant",
-     //      "listable",
-     //      "auto_revoke",
-     //      "enabled",
-     //      "show_posts",
-     //      "target_posts",
-     //      "name",
-     //      "description",
-     //      "long_description",
-     //      "icon",
-     //      "image",
-     //      "query",
-     //      "badge_grouping_id",
-     //      "trigger",
-     //      "badge_type_id"
-     //    ];
-
-     //    if (this.get("buffered.system")) {
-     //      var protectedFields = this.protectedSystemFields || [];
-     //      fields = _.filter(fields, f => !protectedFields.includes(f));
-     //    }
-
-    	// const data = {};
-     //    const buffered = this.buffered;
-     //    fields.forEach(function(field) {
-     //      var d = buffered.get(field);
-     //      if (boolFields.includes(field)) {
-     //        d = !!d;
-     //      }
-     //      data[field] = d;
-     //    });
-     	var editor=ace.edit("editor1");
-      let msg=editor.getValue();
-    	alert(msg);
     }
-  }
+
+  } 
+
 });

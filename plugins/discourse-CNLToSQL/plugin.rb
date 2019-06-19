@@ -25,6 +25,14 @@ after_initialize do
   end
 
   
+  class DiscourseCNLToSQL::Queries
+    attr_accessor :id, :cnl
+
+    def initialize
+      @cnl = 'SELECT'
+    end
+
+  end
 
   
   require_dependency "application_controller"
