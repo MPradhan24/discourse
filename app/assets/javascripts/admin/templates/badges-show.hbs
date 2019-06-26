@@ -62,14 +62,17 @@
       {{/if}}
     </div>
 
-    {{plugin-outlet name="cnl-to-sql-textbox"
-                    args=(hash topic=topic)
-                    tagName=""}}
+    
+      {{plugin-outlet name="cnl-to-sql-textbox"
+                  args=(hash topic=topic)
+                  tagName=""
+                  connectorTagName="span"}}
 
+    
     {{#if siteSettings.enable_badge_sql}}
       <div>
         <label for="query">{{i18n 'admin.badges.query'}}</label>
-        {{ace-editor content=buffered.query mode="sql" disabled=readOnly}}
+        {{ace-editor mode="sql" content=buffered.query disabled=readOnly}}
       </div>
 
       {{#if hasQuery}}
