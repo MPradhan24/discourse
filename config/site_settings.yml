@@ -280,6 +280,10 @@ basic:
     default: true
   enable_badge_sql:
     client: true
+    default: true
+    hidden: true
+  discourse_CNLToSQL_enabled:
+    client: true
     default: false
     hidden: true
   enable_whispers:
@@ -463,7 +467,13 @@ users:
     validator: "UnicodeUsernameWhitelistValidator"
     default: ""
     locale_default:
+      cs: "[ěščřžýáíéóůúďťňĚŠČŘŽÝÁÍÉÓŮÚĎŤŇ]"
       de: "[äöüßÄÖÜẞ]"
+      fi: "[åäöÅÄÖ]"
+      ja: '[\p{Han}\p{Katakana}\p{Hiragana}]'
+      ko: '\p{Hangul}'
+      zh_CN: '\p{Han}'
+      zh_TW: '\p{Han}'
   reserved_usernames:
     type: list
     list_type: compact

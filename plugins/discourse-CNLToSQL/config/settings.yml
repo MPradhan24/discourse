@@ -1,0 +1,4 @@
+plugins:
+  discourse_CNLToSQL_enabled:
+    default: true
+    client: true
