@@ -16,6 +16,8 @@ export default ({
   cnlQuery: "",
   _editor: null,
   tags: [],
+  badges: [],
+  nums: [],
   query: "",
 
   @observes("content")
@@ -38,11 +40,7 @@ export default ({
         console.log(readOnly);
         this.send('getEditorContent');
         this.set("cnlQuery",this.get("content"));
-        //alert(this.get("content"));
-        this.send('splitTags');
-        this.send('makeSQLQueryForTags');
-        //this.send('insertSQL');
-        this.send('displaySQL');    
+        this.send('splitInput');     
     },
 
     getEditorContent(){
@@ -80,15 +78,45 @@ export default ({
 
     },
 
-    splitTags(){
+    splitInput(){
         var splittedTags = this.get("content").split("t:");
-        var tagList = [];
-        for (let i = 1; i<splittedTags.length; i++){
-            tagList.push(splittedTags[i].split(" ")[0]);
-        }
+        let lenTag = splittedTags.length;
+        var splittedBadges = this.get("content").split("b:");
+        let lenBad = splittedBadges.length;
+        var thresholdNum = this.get("content").split("atleast ");
+        let lenNum = thresholdNum.length;
+        console.log(lenTag);
+       if(lenTag>1){
+          var tagList = [];
+          for (let i = 1; i<lenTag; i++){
+              tagList.push(splittedTags[i].split(" ")[0]);
+          }
 
-        this.set("tags",tagList);
-        //alert(this.get('tags'));
+          this.set("tags",tagList);
+          this.send('makeSQLQueryForTags');
+        }
+        else if(lenBad>1){
+          var badgeList = [];
+          var numList = [];
+          for (let i = 1; i<lenBad; i++){
+              badgeList.push(splittedBadges[i].split(" ")[0]);
+          }
+          for (let i = 1; i<lenNum; i++){
+              numList.push(thresholdNum[i].split(" ")[0]);
+              if(isNaN(numList[i-1])){
+                this.send('wrongQueryFormat');
+                return;
+              }
+          }
+          this.set("badges",badgeList);
+          this.set("nums",numList);
+          if(lenBad==lenNum)
+            this.send('makeSQLQueryForBadges');
+          else
+            this.send('wrongQueryFormat');
+        }
+        else
+          this.send('wrongQueryFormat');
     },
 
     makeSQLQueryForTags(){
@@ -129,7 +157,37 @@ export default ({
             WHERE (:backfill OR post.ID IN (:post_ids))`;
 
             this.set("query",q);
+            this.send('displaySQL'); 
 
+    },
+    makeSQLQueryForBadges(){
+      var badgeList=this.get("badges");
+      var numList=this.get("nums");
+      var q = 'WITH user_eligible AS ( \n'
+      for(let i=0;i<badgeList.length;i++){
+        q = q + `\t\t\tSELECT USER_ID
+                    FROM USER_BADGES
+                    WHERE BADGE_ID IN (
+                        SELECT ID
+                        FROM BADGES
+                        WHERE NAME = \'`+badgeList[i]+`\' \n
+                    )
+                    GROUP BY USER_ID
+                    HAVING COUNT(BADGE_ID)>=`+numList[i]+'\n'
+        if(i<badgeList.length-1){
+          q = q + '\t\tINTERSECT \n'
+        }
+      }
+      q = q + ` \t\t\t)
+                SELECT DISTINCT u.USER_ID AS user_id, current_timestamp AS granted_at
+                FROM user_eligible u`
+        this.set("query",q);
+        this.send('displaySQL'); 
+    },
+
+    wrongQueryFormat(){
+        alert("Wrong Query Format. Please click the help icon beside textbox for assistance with Templates.");
+        this._editor.getSession().setValue(this.get("cnlQuery"));
     },
 
     insertSQL(){
