@@ -1,11 +1,12 @@
 {{#if siteSettings.discourse_CNLToSQL_enabled}}
       <div>
         <label for="label">Badge Query (CNL)</label>
-        {{ace-editor id="cnl-editor" content=content mode="sql" }}
+
+        {{ace-editor id="cnl-editor" content=content mode="sql" }}<br>
       </div>
 
 
-      <button {{action "convert"}} class="btn btn-primary">Generate SQL Query</button>
+      <button {{action "convert"}} class="btn btn-primary">Generate SQL Query</button><br><br>
       <!--<button {{action "revert"}} class="btn btn-primary">Revert</button>-->
 {{/if}}
 
