@@ -217,6 +217,11 @@ export default ({
     hideTemplates(){
         let infobox = document.getElementsByClassName("overlay")[0];
         infobox.style.display = "none";
+    },
+
+    clearCNLTextbox(){
+        this.send("getEditorContent");
+        this._editor.getSession().setValue("");
     }
 
   } 
