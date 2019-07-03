@@ -207,6 +207,16 @@ export default ({
         editor.setOptions({ fontSize: "14px" });
         editor.getSession().setMode("ace/mode/" + "sql");
         editor.getSession().setValue(this.get("query"));
+    },
+
+    showTemplates(){
+        let infobox = document.getElementsByClassName("overlay")[0];
+        infobox.style.display = "block";
+    },
+
+    hideTemplates(){
+        let infobox = document.getElementsByClassName("overlay")[0];
+        infobox.style.display = "none";
     }
 
   } 
