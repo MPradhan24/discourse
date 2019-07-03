@@ -1,11 +1,31 @@
 {{#if siteSettings.discourse_CNLToSQL_enabled}}
-      <div>
-        <label for="label">Badge Query (CNL)</label>
-        {{ace-editor id="cnl-editor" content=content mode="sql" }}
-      </div>
+	<head>
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+	</head>
 
+	<div>
+	<label for="label">Badge Query (CNL)</label>
+	{{ace-editor id="cnl-editor" content=content mode="sql" }}
+	</div>
 
-      <button {{action "convert"}} class="btn btn-primary">Generate SQL Query</button>
-      <!--<button {{action "revert"}} class="btn btn-primary">Revert</button>-->
+	<div class="cnltoolbar">
+		<button {{action "convert"}} class="btn btn-primary">Generate SQL Query</button>
+		<i id="info-icon" class="fas fa-info-circle" {{action "showTemplates"}}> Check Templates</i>
+	</div>
+
+	<div id="info-popup" class="overlay">
+		<div class="popup">
+			<h2>Permissible Templates</h2>
+			<span class="close" {{action "hideTemplates"}}>&times;</span>
+			<div class="content">
+				<ol>
+					<li>If a user X has <b>t:</b>tag_name_1 and <b>t:</b>tag_name_2 ... grant X this badge.</li>
+					<br>
+					<li>If a user X has atleast <b>3</b> badges <b>b:</b>badge_name_1 and atleast <b>2</b> badges of <b>b:</b>badge_name_2 ... grant X this badge.</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+
 {{/if}}
 
