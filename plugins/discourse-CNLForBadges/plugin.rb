@@ -2,7 +2,7 @@
 # about:
 # version: 0.1
 # authors: Sheth-Smit
-# url: https://github.com/MPradhan24/discourse
+# url: https://github.com/MPradhan24/discourse-CNL-For-Badges
 
 
 register_asset "stylesheets/common/discourse-CNLForBadges.scss"
