@@ -43,9 +43,9 @@ If you have issues or suggestions for the plugin, please bring them up on
 
 
 ## Developers
-Smit Sheth (username on meta.discourse : Sheth_Smit)
+Smit Sheth 
 
-Mrinal Pradhan (username on meta.discourse : M_Pradhan)
+Mrinal Pradhan 
 
 # discourse-CNLForBadges
 
