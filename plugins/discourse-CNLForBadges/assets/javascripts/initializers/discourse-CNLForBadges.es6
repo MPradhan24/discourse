@@ -1,6 +1,6 @@
 import { withPluginApi } from "discourse/lib/plugin-api";
 
-function initializeDiscourseCNLToSQL(api) {
+function initializeDiscourseCNLForBadges(api) {
   
   // see app/assets/javascripts/discourse/lib/plugin-api
   // for the functions available via the api object
@@ -8,9 +8,9 @@ function initializeDiscourseCNLToSQL(api) {
 }
 
 export default {
-  name: "discourse-CNLToSQL",
+  name: "discourse-CNLForBadges",
 
   initialize() {
-    withPluginApi("0.8.24", initializeDiscourseCNLToSQL);
+    withPluginApi("0.8.24", initializeDiscourseCNLForBadges);
   }
 };

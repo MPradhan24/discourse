@@ -1,31 +1,31 @@
-# name: DiscourseCNLToSQL
+# name: DiscourseCNLForBadges
 # about:
 # version: 0.1
 # authors: Sheth-Smit
 # url: https://github.com/MPradhan24/discourse
 
 
-register_asset "stylesheets/common/discourse-CNLToSQL.scss"
+register_asset "stylesheets/common/discourse-CNLForBadges.scss"
 
 
-enabled_site_setting :discourse_CNLToSQL_enabled
+enabled_site_setting :discourse_CNLForBadges_enabled
 
-PLUGIN_NAME ||= "DiscourseCNLToSQL".freeze
+PLUGIN_NAME ||= "DiscourseCNLForBadges".freeze
 
 after_initialize do
   
   # see lib/plugin/instance.rb for the methods available in this context
   
 
-  module ::DiscourseCNLToSQL
+  module ::DiscourseCNLForBadges
     class Engine < ::Rails::Engine
       engine_name PLUGIN_NAME
-      isolate_namespace DiscourseCNLToSQL
+      isolate_namespace DiscourseCNLForBadges
     end
   end
 
   
-  class DiscourseCNLToSQL::Queries
+  class DiscourseCNLForBadges::Queries
     attr_accessor :id, :cnl
 
     def initialize
@@ -36,7 +36,7 @@ after_initialize do
 
   
   require_dependency "application_controller"
-  class DiscourseCNLToSQL::ActionsController < ::ApplicationController
+  class DiscourseCNLForBadges::ActionsController < ::ApplicationController
     requires_plugin PLUGIN_NAME
 
     before_action :ensure_logged_in
@@ -46,12 +46,12 @@ after_initialize do
     end
   end
 
-  DiscourseCNLToSQL::Engine.routes.draw do
+  DiscourseCNLForBadges::Engine.routes.draw do
     get "/list" => "actions#list"
   end
 
   Discourse::Application.routes.append do
-    mount ::DiscourseCNLToSQL::Engine, at: "/discourse-CNLToSQL"
+    mount ::DiscourseCNLForBadges::Engine, at: "/discourse-CNLForBadges"
   end
   
 end

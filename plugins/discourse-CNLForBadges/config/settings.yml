@@ -1,4 +1,4 @@
 plugins:
-  discourse_CNLToSQL_enabled:
+  discourse_CNLForBadges_enabled:
     default: true
     client: true

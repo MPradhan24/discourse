@@ -46,7 +46,7 @@ bootsnap-compile-cache/
 
 # Ignore plugins except for the bundled ones.
 /plugins/*
-!/plugins/discourse-CNLToSQL
+!/plugins/discourse-CNLForBadges
 !/plugins/lazyYT/
 !/plugins/poll/
 !/plugins/discourse-details/
@@ -129,4 +129,4 @@ vendor/bundle/*
 # Vagrant
 .vagrant
 
-!/plugins/discourse-CNLToSQL
+!/plugins/discourse-CNLForBadges
