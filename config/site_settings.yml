@@ -282,10 +282,7 @@ basic:
     client: true
     default: true
     hidden: true
-  discourse_CNLToSQL_enabled:
-    client: true
-    default: false
-    hidden: true
+
   enable_whispers:
     client: true
     default: false

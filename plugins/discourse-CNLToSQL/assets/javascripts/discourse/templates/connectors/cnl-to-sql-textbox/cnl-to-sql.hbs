@@ -1,33 +1,36 @@
 {{#if siteSettings.discourse_CNLToSQL_enabled}}
 	<head>
+		<!-- Links to include the Font-Awesome class for icons -->
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	</head>
 
 	<div>
 		<label for="label">Badge Query (CNL)</label>
-		{{ace-editor id="cnl-editor" content=content mode="sql" }}
+		<!-- Ace editor textbox used for inputting CNL queries -->
+		{{ace-editor id="cnl-editor" content=content mode="sql"}}
 	</div>
 
+	<!-- A toolbar provided at the bottom of the textbox-->
 	<div class="cnltoolbar">
+		<!-- Button that converts CNL into SQL using the convert action and displays the corresponding SQL query in the SQL textbox -->
 		<button {{action "convert"}} class="btn btn-primary">Generate SQL Query</button>
+		<!-- An icon that clears the CNL textbox -->
 		<i id="refresh-icon" class="fa fa-refresh" {{action "clearCNLTextbox"}}></i>
+		<!-- An icon which displays the pre-defined templates to the users as a modal -->
 		<i id="info-icon" class="fas fa-info-circle" {{action "showTemplates"}}> Check Templates</i>
 	</div>
 
+	<!-- The modal popup to display the templates available -->
 	<div id="info-popup" class="overlay">
 		<div class="popup">
-			<h2>Permissible Templates</h2>
+			<h2></h2>
+			<h4>Note: Use '-' instead of spaces in badge and tag names.</h4>
 			<span class="close" {{action "hideTemplates"}}>&times;</span>
 			<div class="content">
-				<ol>
-					<li>If a user X has <b>t:</b>tag_name_1 and <b>t:</b>tag_name_2 ... grant X this badge.</li>
-					<br>
-					<li>If a user X has atleast <b>3</b> badges <b>b:</b>badge_name_1 and atleast <b>2</b> badges of <b>b:</b>badge_name_2 ... grant X this badge.</li>
-				</ol>
+				
 			</div>
 		</div>
 	</div>
-
 {{/if}}
 

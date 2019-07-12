@@ -2,7 +2,7 @@
 # about:
 # version: 0.1
 # authors: Sheth-Smit
-# url: https://github.com/Sheth-Smit
+# url: https://github.com/MPradhan24/discourse
 
 
 register_asset "stylesheets/common/discourse-CNLToSQL.scss"
