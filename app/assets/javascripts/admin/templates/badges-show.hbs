@@ -62,11 +62,12 @@
       {{/if}}
     </div>
 
-    
+    {{#if siteSettings.enable_badge_sql}}
       {{plugin-outlet name="cnl-for-badges-textbox"
                   args=(hash readOnly=readOnly)
                   tagName=""
                   connectorTagName="span"}}
+    {{/if}}
 
     
     {{#if siteSettings.enable_badge_sql}}
